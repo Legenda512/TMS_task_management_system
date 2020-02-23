@@ -26,11 +26,13 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+ 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
         <TextBlock Text="Имя задачи" />
         <TextBlock Text="Описание задачи" Grid.Row="1" />
         <TextBlock Text="Исполнители задачи" Grid.Row="2" />

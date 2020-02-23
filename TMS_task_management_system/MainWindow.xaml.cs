@@ -26,7 +26,7 @@ namespace TMS_task_management_system
     /// </summary>
     public partial class MainWindow : Window
     {
-        ApplicationContext db;
+        //ApplicationContext db;
 
         public MainWindow()
         {
