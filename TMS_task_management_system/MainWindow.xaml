@@ -33,12 +33,94 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-            <Button Grid.Column="2" Content="Правая кнопка" />
+
+            <StackPanel Grid.Column="2" DataContext="{Binding ElementName=tasksList, Path=SelectedItem}">
+                <TextBlock Text="Выбранный элемент"  />
+
+                <TextBlock Text="Имя задачи" FontSize="16" />
+                <Separator/>
+                <TextBlock Text="{Binding Name_Task}"/>
+
+                <TextBlock Text="Описание задачи" FontSize="16"  />
+                <Separator/>
+                <TextBlock Text="{Binding Description_Task}"/>
+
+                <TextBlock Text="Исполнители задачи" FontSize="16" />
+                <Separator/>
+                <TextBlock Text="{Binding Performers_Task}" />
+
+                <TextBlock Text="Дата регистрации задачи" FontSize="16"  />
+                <Separator/>
+                <TextBlock Text="{Binding Date_of_registration_Task}" />
+
+                <TextBlock Text="Статус задачи" FontSize="16"/>
+                <Separator/>
+                <TextBlock Text="{Binding Status_Task}"/>
+
+                <TextBlock Text="Плановая трудоемкость задачи" FontSize="16" />
+                <Separator/>
+                <TextBlock Text="{Binding Planned_time_Task}"/>
+
+                <TextBlock Text="Фактическое время выполнения" FontSize="16"/>
+                <Separator/>
+                <TextBlock Text="{Binding Actual_time_Task}"/>
+
+                <TextBlock Text="Дата завершения задачи" FontSize="16" />
+                <Separator/>
+                <TextBlock Text="{Binding Date_of_completion_Task}"/>
+                
+
+                <!--<TextBlock Text="Цена" />
+                <TextBox Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />-->
+            </StackPanel>
+
         </Grid>
 
     </DockPanel>
+
+    <!--<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Имя задачи" />
+        <TextBlock Text="Описание задачи" Grid.Row="1" />
+        <TextBlock Text="Исполнители задачи" Grid.Row="2" />
+        <TextBlock Text="Дата регистрации задачи" Grid.Row="3" />
+        <TextBlock Text="Статус задачи" Grid.Row="4" />
+        <TextBlock Text="Плановая трудоемкость задачи" Grid.Row="5" />
+        <TextBlock Text="Фактическое время выполнения" Grid.Row="6" />
+        <TextBlock Text="Дата завершения задачи" Grid.Row="7" />
+        <TextBlock Text="" Grid.Row="8" />
+
+        <TextBox Text="{Binding Name_Task}" Grid.Column="1" />
+        <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" />
+        <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" />
+        <TextBox Text="{Binding Date_of_registration_Task}" Grid.Column="1" Grid.Row="3" />
+        <TextBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" />
+        <TextBox Text="{Binding Planned_time_Task}" Grid.Column="1" Grid.Row="5" />
+        <TextBox Text="{Binding Actual_time_Task}" Grid.Column="1" Grid.Row="6" />
+        <TextBox Text="{Binding Date_of_completion_Task}" Grid.Column="1" Grid.Row="7" />
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="8" Grid.Column="1">
+            <Button IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="5">OK</Button>
+            <Button IsCancel="True" MinWidth="60" Margin="5">Отмена</Button>
+        </StackPanel>
+    </Grid>-->
     
 
     <!--<Grid>
