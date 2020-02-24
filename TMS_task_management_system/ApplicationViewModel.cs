@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Runtime.CompilerServices;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+
 
 namespace TMS_task_management_system
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
+        //подключение к базе данных
         ApplicationContext db;
+        //команда добавления новых заданий
         RelayCommand addCommand;
+        //команда изменения задачи
         RelayCommand editCommand;
+        //команда удаления задачи
         RelayCommand deleteCommand;
+        //команда добавления подзадачи
+        RelayCommand addsubCommand;
         IEnumerable<Task> tasks;
+
+        
 
         public IEnumerable<Task> Tasks
         {
@@ -42,10 +47,10 @@ namespace TMS_task_management_system
                 return addCommand ??
                   (addCommand = new RelayCommand((o) =>
                   {
-                      TaskWindow phoneWindow = new TaskWindow(new Task());
-                      if (phoneWindow.ShowDialog() == true)
+                      TaskWindow taskWindow = new TaskWindow(new Task());
+                      if (taskWindow.ShowDialog() == true)
                       {
-                          Task task = phoneWindow.Task;
+                          Task task = taskWindow.Task;
                           db.Tasks.Add(task);
                           db.SaveChanges();
                       }
@@ -118,6 +123,31 @@ namespace TMS_task_management_system
             }
         }
 
+        // команда добавления подзадачи
+        public RelayCommand AddSubCommand
+        {
+            get
+            {
+                return addsubCommand ??
+                  (addsubCommand = new RelayCommand((selectedItem) =>
+                  {
+                      if (selectedItem == null) return;
+                      // получаем выделенный объект
+                      Task task = selectedItem as Task;
+                      TaskWindow window = new TaskWindow(new Task());
+                      if (window.ShowDialog() == true)
+                      {
+                          Task subtask = window.Task;
+                          subtask.Ref_Task = task.Id_Task;
+                          db.Tasks.Add(subtask);
+                          db.SaveChanges();
+                      }
+
+                  }));
+            }    
+        }
+
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

@@ -15,6 +15,8 @@
                     CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
             <Button Content="Удалить" Margin="10" Command="{Binding DeleteCommand}"
                     CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
+            <Button Content="Добавить подзадачу" Margin="10" Command="{Binding AddSubCommand}"
+                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
         </StackPanel>
 
         <Grid>
@@ -32,14 +34,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Копировать"></MenuItem>
-                        <MenuItem Header="Вставить"></MenuItem>
-                        <MenuItem Header="Вырезать"></MenuItem>
-                        <MenuItem Header="Удалить"></MenuItem>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
             </ListBox>
             
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
@@ -81,100 +75,11 @@
                 <TextBlock Text="{Binding Date_of_completion_Task}"/>
                 
 
-                <!--<TextBlock Text="Цена" />
-                <TextBox Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" />-->
             </StackPanel>
 
         </Grid>
 
     </DockPanel>
 
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Имя задачи" />
-        <TextBlock Text="Описание задачи" Grid.Row="1" />
-        <TextBlock Text="Исполнители задачи" Grid.Row="2" />
-        <TextBlock Text="Дата регистрации задачи" Grid.Row="3" />
-        <TextBlock Text="Статус задачи" Grid.Row="4" />
-        <TextBlock Text="Плановая трудоемкость задачи" Grid.Row="5" />
-        <TextBlock Text="Фактическое время выполнения" Grid.Row="6" />
-        <TextBlock Text="Дата завершения задачи" Grid.Row="7" />
-        <TextBlock Text="" Grid.Row="8" />
-
-        <TextBox Text="{Binding Name_Task}" Grid.Column="1" />
-        <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" />
-        <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" />
-        <TextBox Text="{Binding Date_of_registration_Task}" Grid.Column="1" Grid.Row="3" />
-        <TextBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" />
-        <TextBox Text="{Binding Planned_time_Task}" Grid.Column="1" Grid.Row="5" />
-        <TextBox Text="{Binding Actual_time_Task}" Grid.Column="1" Grid.Row="6" />
-        <TextBox Text="{Binding Date_of_completion_Task}" Grid.Column="1" Grid.Row="7" />
-
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="8" Grid.Column="1">
-            <Button IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="5">OK</Button>
-            <Button IsCancel="True" MinWidth="60" Margin="5">Отмена</Button>
-        </StackPanel>
-    </Grid>-->
-    
-
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <ListBox x:Name="tasksList" ItemsSource="{Binding Tasks}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name_Task}" FontSize="16" />
-                        <TextBlock Text="{Binding Description_Task}" FontSize="12" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Добавить" Margin="10" Command="{Binding AddCommand}"  />
-            <Button Content="Изменить" Margin="10" Command="{Binding EditCommand}"
-                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
-            <Button Content="Удалить" Margin="10" Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
-        </StackPanel>
-    </Grid>-->
-    
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <ListBox x:Name="tasksList" ItemsSource="{Binding}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name_Task}" FontSize="16" />
-                        <TextBlock Text="{Binding Description_Task}" FontSize="12" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Добавить" Margin="10" Click="Add_Click" />
-            <Button Content="Изменить" Margin="10" Click="Edit_Click"  />
-            <Button Content="Удалить" Margin="10" Click="Delete_Click"  />
-        </StackPanel>
-    </Grid>-->
     
 </Window>

@@ -36,8 +36,11 @@ namespace TMS_task_management_system
         //Дата завершения задачи
         private string date_of_completion_task;
 
-
-
+        //id задачи, на который ссылается подзадача
+        public int Ref_Task { get; set; }
+        
+        
+        //id задачи
         [Key]
         public int Id_Task { get; set; }
 
