@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TMS_task_management_system
 {
@@ -38,8 +40,11 @@ namespace TMS_task_management_system
 
         //id задачи, на который ссылается подзадача
         public int Ref_Task { get; set; }
-        
-        
+
+        //коллекция подзадач
+        [NotMapped]
+        public ObservableCollection<Task> SubTasks { get; set; } = new ObservableCollection<Task>();
+
         //id задачи
         [Key]
         public int Id_Task { get; set; }

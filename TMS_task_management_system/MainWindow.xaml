@@ -15,11 +15,11 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Добавить" Margin="10" Command="{Binding AddCommand}"  />
             <Button Content="Изменить" Margin="10" Command="{Binding EditCommand}"
-                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
+                    CommandParameter="{Binding ElementName=trvTasks, Path=SelectedItem}"  />
             <Button Content="Удалить" Margin="10" Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
+                    CommandParameter="{Binding ElementName=trvTasks, Path=SelectedItem}"  />
             <Button Content="Добавить подзадачу" Margin="10" Command="{Binding AddSubCommand}"
-                    CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
+                    CommandParameter="{Binding ElementName=trvTasks, Path=SelectedItem}"  />
         </StackPanel>
 
         <Grid x:Name="layoutGrid">
@@ -28,6 +28,17 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
+
+            <TreeView Name="trvTasks">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding SubTasks}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name_Task}" Margin="0,0,4,0" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            
 
             <!--<TreeView x:Name="tasksList" Margin="5"  TreeViewItem.Expanded="tasks_Expanded" />-->
             
@@ -46,7 +57,7 @@
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
-            <StackPanel Grid.Column="2" DataContext="{Binding ElementName=tasksList, Path=SelectedItem}">
+            <StackPanel Grid.Column="2" DataContext="{Binding ElementName=trvTasks, Path=SelectedItem}">
                 <TextBlock Text="Выбранный элемент"  />
 
                 <TextBlock Text="Имя задачи" FontSize="16" />

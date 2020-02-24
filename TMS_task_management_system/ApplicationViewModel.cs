@@ -10,6 +10,13 @@ namespace TMS_task_management_system
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
+
+        public delegate void AccountHandler(Task task);
+        public event AccountHandler NotifyAddCommand;              // Определение события для AddCommand
+        public event AccountHandler NotifyEditCommand;              // Определение события для EditCommand
+        public event AccountHandler NotifyDeleteCommand;              // Определение события для DeleteCommand
+        public event AccountHandler NotifyAddSubCommand;              // Определение события для AddSubCommand
+
         //подключение к базе данных
         ApplicationContext db;
         //команда добавления новых заданий
@@ -20,6 +27,8 @@ namespace TMS_task_management_system
         RelayCommand deleteCommand;
         //команда добавления подзадачи
         RelayCommand addsubCommand;
+
+
         IEnumerable<Task> tasks;
 
         
@@ -55,6 +64,7 @@ namespace TMS_task_management_system
                           Task task = taskWindow.Task;
                           db.Tasks.Add(task);
                           db.SaveChanges();
+                          NotifyAddCommand?.Invoke(task);
                       }
                   }));
             }
@@ -71,7 +81,7 @@ namespace TMS_task_management_system
                       // получаем выделенный объект
                       Task task = selectedItem as Task;
 
-                      Task vm = new Task()
+                      Task oldtask = new Task()
                       {
                           Id_Task = task.Id_Task,
                           Name_Task = task.Name_Task,
@@ -83,7 +93,7 @@ namespace TMS_task_management_system
                           Actual_time_Task = task.Actual_time_Task,
                           Date_of_completion_Task = task.Date_of_completion_Task
                       };
-                      TaskWindow taskWindow = new TaskWindow(vm);
+                      TaskWindow taskWindow = new TaskWindow(oldtask);
 
 
                       if (taskWindow.ShowDialog() == true)
@@ -103,6 +113,8 @@ namespace TMS_task_management_system
 
                               db.Entry(task).State = EntityState.Modified;
                               db.SaveChanges();
+
+                              NotifyEditCommand?.Invoke(task);
                           }
                       }
                   }));
@@ -119,8 +131,11 @@ namespace TMS_task_management_system
                       if (selectedItem == null) return;
                       // получаем выделенный объект
                       Task task = selectedItem as Task;
-                      db.Tasks.Remove(task);
+                      if (task.SubTasks.Count != 0) return;
+                      var taskdelete = db.Tasks.Where(c => c.Id_Task == task.Id_Task).First();
+                      db.Tasks.Remove(taskdelete);
                       db.SaveChanges();
+                      NotifyDeleteCommand?.Invoke(task);
                   }));
             }
         }
@@ -141,10 +156,11 @@ namespace TMS_task_management_system
                       {
                           Task subtask = window.Task;
                           subtask.Ref_Task = task.Id_Task;
+                          task.SubTasks.Add(subtask);
                           db.Tasks.Add(subtask);
                           db.SaveChanges();
                       }
-
+                   NotifyAddSubCommand?.Invoke(task);
                   }));
             }    
         }
