@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
+
+    
+
     <DockPanel LastChildFill="True">
         
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -19,13 +22,17 @@
                     CommandParameter="{Binding ElementName=tasksList, Path=SelectedItem}"  />
         </StackPanel>
 
-        <Grid>
+        <Grid x:Name="layoutGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="tasksList" ItemsSource="{Binding Tasks}">
+
+            <!--<TreeView x:Name="tasksList" Margin="5"  TreeViewItem.Expanded="tasks_Expanded" />-->
+            
+            
+            <!--<ListBox x:Name="tasksList" ItemsSource="{Binding Tasks}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -34,7 +41,7 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
+            </ListBox>-->
             
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />

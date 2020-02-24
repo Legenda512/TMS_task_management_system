@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Windows.Controls;
 
 namespace TMS_task_management_system
 {
@@ -38,6 +39,7 @@ namespace TMS_task_management_system
             db = new ApplicationContext();
             db.Tasks.Load();
             Tasks = db.Tasks.Local.ToBindingList();
+
         }
         // команда добавления
         public RelayCommand AddCommand
