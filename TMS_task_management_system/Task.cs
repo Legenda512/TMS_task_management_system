@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TMS_task_management_system
 {
-    public class Task : INotifyPropertyChanged
+    public class Task : INotifyPropertyChanged 
     {
 
         //Имя задачи

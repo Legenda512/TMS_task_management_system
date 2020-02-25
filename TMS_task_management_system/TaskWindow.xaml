@@ -10,13 +10,25 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="8" />
+            
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="8" />
+            
         </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="8" />
+            
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="8" />
+        </Style>
+        
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -42,15 +54,25 @@
         <TextBlock Text="Фактическое время выполнения" Grid.Row="6" />
         <TextBlock Text="Дата завершения задачи" Grid.Row="7" />
         <TextBlock Text="" Grid.Row="8" />
+
+        <TextBox Text="{Binding Name_Task}" Grid.Column="1" SpellCheck.IsEnabled="True" Language="ru-ru" />
+        <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" SpellCheck.IsEnabled="True" Language="ru-ru" />
+        <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" SpellCheck.IsEnabled="True" Language="ru-ru" />
+        <DatePicker SelectedDate="{Binding Date_of_registration_Task}"  Grid.Column="1" Grid.Row="3" IsDropDownOpen="False" SelectedDateFormat ="Short"/>
         
-        <TextBox Text="{Binding Name_Task}" Grid.Column="1" />
-        <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" />
-        <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" />
-        <TextBox Text="{Binding Date_of_registration_Task}" Grid.Column="1" Grid.Row="3" />
-        <TextBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" />
+        <!--<TextBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" />-->
+        <ComboBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Top">
+            <TextBlock Margin="0">Назначена</TextBlock>
+            <TextBlock Margin="0">Выполняется</TextBlock>
+            <TextBlock Margin="0" >Приостановлена</TextBlock>
+            <TextBlock Margin="0">Завершена</TextBlock>
+        </ComboBox>
+
+
         <TextBox Text="{Binding Planned_time_Task}" Grid.Column="1" Grid.Row="5" />
         <TextBox Text="{Binding Actual_time_Task}" Grid.Column="1" Grid.Row="6" />
-        <TextBox Text="{Binding Date_of_completion_Task}" Grid.Column="1" Grid.Row="7" />
+        <DatePicker SelectedDate="{Binding Date_of_completion_Task}"  Grid.Column="1" Grid.Row="7" IsDropDownOpen="False" SelectedDateFormat ="Short"/>
+
         
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="8" Grid.Column="1">
             <Button IsDefault="True" Click="Accept_Click" MinWidth="60" Margin="5">OK</Button>

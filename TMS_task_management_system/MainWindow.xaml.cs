@@ -33,6 +33,7 @@ namespace TMS_task_management_system
         public MainWindow()
         {
             InitializeComponent(); 
+
             var datacontext = new ApplicationViewModel();
             this.DataContext = datacontext;
             
@@ -40,7 +41,7 @@ namespace TMS_task_management_system
             //Список задач с вложенной структурой
             List<Task> tasks = new List<Task>();
 
-            //весь нас список задач
+            //получаем весь список задач из бд
             var task_list = db.Tasks.ToList();
             foreach (var task in task_list)
             {
@@ -52,7 +53,7 @@ namespace TMS_task_management_system
                 tasks.Add(task);
             }
 
-
+            //обновляем ItemsSource у TreeView при добавлении новой задачи
             trvTasks.ItemsSource = tasks.Where(c => c.Ref_Task == 0);
             datacontext.NotifyAddCommand += task =>
             {
@@ -61,7 +62,7 @@ namespace TMS_task_management_system
                 trvTasks.Items.Refresh();
             };
 
-
+            //обновляем ItemsSource у TreeView при редактировании задачи
             datacontext.NotifyEditCommand += task =>
             {
                 var newtask = FindTask(tasks.Where(c => c.Ref_Task == 0), task.Id_Task);
@@ -82,6 +83,7 @@ namespace TMS_task_management_system
                 
             };
 
+            //обновляем ItemsSource у TreeView при удалении задачи
             datacontext.NotifyDeleteCommand += task =>
             {
                 DeleteTask(tasks, task.Id_Task);
@@ -89,7 +91,7 @@ namespace TMS_task_management_system
                 trvTasks.Items.Refresh();
             };
 
-
+            //обновляем ItemsSource у TreeView при добавлении подзадачи
             datacontext.NotifyAddSubCommand += task =>
             {
                 trvTasks.Items.Refresh();
@@ -97,6 +99,7 @@ namespace TMS_task_management_system
 
 
         }
+
 
         private static Task FindTask(IEnumerable<Task> tasks, int taskId)
         {
@@ -135,10 +138,9 @@ namespace TMS_task_management_system
                     DeleteTaskRecursive(task, taskId);
                       
                 }
-
             }
-
         }
+
 
         private static void DeleteTaskRecursive(Task sourceTask, int taskId)
         {
@@ -154,35 +156,6 @@ namespace TMS_task_management_system
             }
         }
 
-            //private void tasks_Expanded(object sender, RoutedEventArgs e)
-            //{
-            //    //получаем элемент, для которого пытаемся раскрыть список
-            //    TreeViewItem item = (TreeViewItem)e.OriginalSource;
-            //    //очищаем список, чтобы каждый раз обновлять содержимое
-            //    item.Items.Clear();
 
-            //    //получаем из элемента treeview его заголовок
-            //    var name_task = item.Header;
-            //    //находим объект класса Task в котором название задачи совпадаем с заголовком элемента treeview
-            //    var taskParent = db.Tasks.Where(c => c.Name_Task == name_task.ToString());
-
-            //    //проходимся по списку класса Task и будем находить подзадачи, которые ссылаются на задачу
-            //    foreach (var parent in taskParent)
-            //    {
-            //        //находим список объектов Task у которых поле Ref_Task == Id_Task, т.е. ссылаются на задачу
-            //        var taskchild_list = db.Tasks.Where(c => c.Ref_Task == parent.Id_Task);
-            //        foreach (var taskchild in taskchild_list)
-            //        {
-            //            //создаем объект класса treeview
-            //            TreeViewItem newItem = new TreeViewItem();
-            //            //задаем ему заголовок, которым является имя задачи
-            //            newItem.Header = taskchild.Name_Task;
-            //            newItem.Items.Add("*");
-            //            item.Items.Add(newItem);
-            //        }
-            //    }
-
-            //}
-
-        }
+    }
 }

@@ -22,6 +22,7 @@
                     CommandParameter="{Binding ElementName=trvTasks, Path=SelectedItem}"  />
         </StackPanel>
 
+        
         <Grid x:Name="layoutGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -40,20 +41,6 @@
             </TreeView>
             
 
-            <!--<TreeView x:Name="tasksList" Margin="5"  TreeViewItem.Expanded="tasks_Expanded" />-->
-            
-            
-            <!--<ListBox x:Name="tasksList" ItemsSource="{Binding Tasks}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name_Task}" FontSize="16" />
-                            <TextBlock Text="{Binding Description_Task}" FontSize="12" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>-->
-            
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3"
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
