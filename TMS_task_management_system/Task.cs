@@ -32,14 +32,24 @@ namespace TMS_task_management_system
         //Плановая трудоемкость задачи
         private int planned_time_task;
 
+        //сколько всего фактическая трудоемкость задачи
+        private int all_planned_time_task;
+
         //Фактическое время выполнения задачи
         private int actual_time_task;
+
+        //сколько всего плановая трудоемкость задачи
+        private int all_actual_time_task;
 
         //Дата завершения задачи
         private string date_of_completion_task;
 
         //id задачи, на который ссылается подзадача
         public int Ref_Task { get; set; }
+        
+        
+      
+
 
         //коллекция подзадач
         [NotMapped]
@@ -99,6 +109,7 @@ namespace TMS_task_management_system
             }
         }
 
+       
 
         public int Planned_time_Task
         {
@@ -107,6 +118,16 @@ namespace TMS_task_management_system
             {
                 planned_time_task = value;
                 OnPropertyChanged("Planned_time_Task");
+            }
+        }
+
+        public int All_Planned_time_Task
+        {
+            get { return all_planned_time_task; }
+            set
+            {
+                all_planned_time_task = value;
+                OnPropertyChanged("All_Planned_time_Task");
             }
         }
 
@@ -120,6 +141,16 @@ namespace TMS_task_management_system
             }
         }
 
+        public int All_Actual_time_Task
+        {
+            get { return all_actual_time_task; }
+            set
+            {
+                all_actual_time_task = value;
+                OnPropertyChanged("All_Actual_time_Task");
+            }
+        }
+
         public string Date_of_completion_Task
         {
             get { return date_of_completion_task; }
@@ -130,6 +161,7 @@ namespace TMS_task_management_system
             }
         }
 
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {

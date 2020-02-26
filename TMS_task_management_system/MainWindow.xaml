@@ -35,6 +35,15 @@
                     <HierarchicalDataTemplate ItemsSource="{Binding SubTasks}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name_Task}" Margin="0,0,4,0" />
+                            
+                            <TextBlock Text=" [" Foreground="Blue" />
+                            <TextBlock Text="{Binding All_Planned_time_Task }" Foreground="Blue" />
+                            <TextBlock Text="]" Foreground="Blue" />
+
+                            <TextBlock Text=" [" Foreground="Red" />
+                            <TextBlock Text="{Binding All_Actual_time_Task }" Foreground="Red" />
+                            <TextBlock Text="]" Foreground="Red" />
+                            
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
