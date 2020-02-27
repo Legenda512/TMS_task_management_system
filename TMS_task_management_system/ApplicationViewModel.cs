@@ -75,6 +75,15 @@ namespace TMS_task_management_system
                           bool description = String.IsNullOrEmpty(task.Description_Task);
                           bool performers = String.IsNullOrEmpty(task.Performers_Task);
 
+
+                          if (task.Status_Task.ToString() != "Назначена")
+                          {
+                              MessageBox.Show("При добавлении, задача может иметь только статус - \"Назначена\"", "Ввод неккоректных данных");
+                              return;
+                          }
+                              
+
+
                           if (name != true && description != true && performers != true && task.Date_of_registration_Task != null
                             && plannedtime != false && actualtime != false)
                           {
@@ -130,6 +139,29 @@ namespace TMS_task_management_system
                               //запоминаем первоначальные данные
                             int old_Planned_time_Task = task.Planned_time_Task;
 
+                              
+                              //запоминаем статус задачи
+                              string old_status_task = task.Status_Task;
+
+                              if (old_status_task != taskWindow.Task.Status_Task)
+                              {
+                                  if (old_status_task == "Назначена" && taskWindow.Task.Status_Task != "Выполняется")
+                                  {
+                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Выполняется\"", "Ввод неккоректных данных");
+                                      return;
+                                  }
+                                  else if (old_status_task == "Выполняется" && taskWindow.Task.Status_Task != "Приостановлена")
+                                  {
+                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Приостановлена\"", "Ввод неккоректных данных");
+                                      return;
+                                  }
+                                  else if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task != "Завершена")
+                                  {
+                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
+                                      return;
+                                  }
+                              }
+
                             task.Name_Task = taskWindow.Task.Name_Task;
                             task.Description_Task = taskWindow.Task.Description_Task;
                             task.Performers_Task = taskWindow.Task.Performers_Task;
@@ -147,8 +179,11 @@ namespace TMS_task_management_system
                             bool name = String.IsNullOrEmpty(task.Name_Task);
                             bool description = String.IsNullOrEmpty(task.Description_Task);
                             bool performers = String.IsNullOrEmpty(task.Performers_Task);
+
                               
-                            if (name != true && description != true && performers != true && task.Date_of_registration_Task != null
+
+
+                              if (name != true && description != true && performers != true && task.Date_of_registration_Task != null
                              && plannedtime != false && actualtime != false)
                             {
 
@@ -278,6 +313,13 @@ namespace TMS_task_management_system
                           bool name = String.IsNullOrEmpty(subtask.Name_Task);
                           bool description = String.IsNullOrEmpty(subtask.Description_Task);
                           bool performers = String.IsNullOrEmpty(subtask.Performers_Task);
+
+                          if (subtask.Status_Task.ToString() != "Назначена")
+                          {
+                              MessageBox.Show("При добавлении, задача может иметь только статус - \"Назначена\"", "Ввод неккоректных данных");
+                              return;
+                          }
+
 
                           if (name != true && description != true && performers != true && subtask.Date_of_registration_Task != null
                            && plannedtime != false && actualtime != false)
