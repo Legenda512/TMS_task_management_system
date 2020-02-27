@@ -143,6 +143,11 @@ namespace TMS_task_management_system
                               //запоминаем статус задачи
                               string old_status_task = task.Status_Task;
 
+                              //
+                              var task_list = MainWindow.tasks.ToList();
+                              Task status_task = task_list.Where(c => c.Id_Task == taskWindow.Task.Id_Task).FirstOrDefault();
+                              //
+
                               if (old_status_task != taskWindow.Task.Status_Task)
                               {
                                   if (old_status_task == "Назначена" && taskWindow.Task.Status_Task != "Выполняется")
@@ -155,11 +160,27 @@ namespace TMS_task_management_system
                                       MessageBox.Show("При изменении, задача может перейти в статус - \"Приостановлена\"", "Ввод неккоректных данных");
                                       return;
                                   }
-                                  else if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task != "Завершена")
-                                  {
-                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
-                                      return;
-                                  }
+
+                                  if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task != "Завершена" && status_task.SubTasks.Count == 0)
+                                      {
+                                          MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
+                                          return;
+                                      }
+                                  else if (status_task.SubTasks.Count >= 1)
+                                      {
+                                          foreach (var subtask in status_task.SubTasks)
+                                          {
+                                              if (subtask.Status_Task.ToString() != "Завершена")
+                                              {
+                                                  MessageBox.Show("Нельзя перевести задачу в статус -  \"Завершена\", потому что подзадача " +
+                                                      subtask.Name_Task.ToString() +
+                                                      " не имеет статус -  \"Завершена\"", "Ввод неккоректных данных");
+                                                  return;
+                                              }
+                                          }
+                                      }
+                                      
+                                  
                               }
 
                             task.Name_Task = taskWindow.Task.Name_Task;

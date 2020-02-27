@@ -30,6 +30,9 @@ namespace TMS_task_management_system
         //переменная для подключения к базе данных
         ApplicationContext db = new ApplicationContext();
 
+        //Список задач с вложенной структурой
+        public static List<Task> tasks = new List<Task>();
+
         public MainWindow()
         {
             InitializeComponent(); 
@@ -38,8 +41,8 @@ namespace TMS_task_management_system
             this.DataContext = datacontext;
             
 
-            //Список задач с вложенной структурой
-            List<Task> tasks = new List<Task>();
+            ////Список задач с вложенной структурой
+            //List<Task> tasks = new List<Task>();
 
             //получаем весь список задач из бд
             var task_list = db.Tasks.ToList();
@@ -154,6 +157,30 @@ namespace TMS_task_management_system
 
                 if (task.SubTasks.Count > 0) DeleteTaskRecursive(task, taskId);
             }
+        }
+
+        public static bool FindSubtask_Status(TaskWindow taskWindow)
+        {
+            if (taskWindow.Task.SubTasks.Count == 0)
+            {
+                MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
+                return false;
+            }
+            else
+            {
+                foreach (var subtask in taskWindow.Task.SubTasks)
+                {
+                    if (subtask.Status_Task.ToString() != "Завершена")
+                    {
+                        MessageBox.Show("Нельзя перевести задачу в статус -  \"Завершена\", потому что подзадача " +
+                            subtask.Name_Task.ToString() +
+                            "не имеет статус -  \"Завершена\"", "Ввод неккоректных данных");
+                        return false;
+                    }
+                }
+            }
+            return true;
+
         }
 
 
