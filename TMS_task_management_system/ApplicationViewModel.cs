@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace TMS_task_management_system
 {
@@ -65,15 +64,16 @@ namespace TMS_task_management_system
                   (addCommand = new RelayCommand((o) =>
                   {
                       TaskWindow taskWindow = new TaskWindow(new Task());
+                      taskWindow.Task.Status_Task = "Назначена";
                       if (taskWindow.ShowDialog() == true)
                       {
                           Task task = taskWindow.Task;
-
+                          
                           bool plannedtime = int.TryParse(task.Planned_time_Task.ToString(), out int planned_time);
                           bool actualtime = int.TryParse(task.Actual_time_Task.ToString(), out int actual_time);
-                          bool name = String.IsNullOrEmpty(task.Name_Task);
-                          bool description = String.IsNullOrEmpty(task.Description_Task);
-                          bool performers = String.IsNullOrEmpty(task.Performers_Task);
+                          bool name = String.IsNullOrWhiteSpace(task.Name_Task);
+                          bool description = String.IsNullOrWhiteSpace(task.Description_Task);
+                          bool performers = String.IsNullOrWhiteSpace(task.Performers_Task);
 
 
                           if (task.Status_Task.ToString() != "Назначена")
@@ -143,10 +143,11 @@ namespace TMS_task_management_system
                               //запоминаем статус задачи
                               string old_status_task = task.Status_Task;
 
-                              //
+                              
                               var task_list = MainWindow.tasks.ToList();
-                              Task status_task = task_list.Where(c => c.Id_Task == taskWindow.Task.Id_Task).FirstOrDefault();
-                              //
+                              Task status_task = task_list.Where(c => c.Id_Task == taskWindow.Task.Id_Task).First();
+                               
+                            
 
                               if (old_status_task != taskWindow.Task.Status_Task)
                               {
@@ -166,7 +167,7 @@ namespace TMS_task_management_system
                                           MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
                                           return;
                                       }
-                                  else if (status_task.SubTasks.Count >= 1)
+                                  else if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task == "Завершена" && status_task.SubTasks.Count >= 1)
                                       {
                                           foreach (var subtask in status_task.SubTasks)
                                           {
@@ -174,7 +175,7 @@ namespace TMS_task_management_system
                                               {
                                                   MessageBox.Show("Нельзя перевести задачу в статус -  \"Завершена\", потому что подзадача " +
                                                       subtask.Name_Task.ToString() +
-                                                      " не имеет статус -  \"Завершена\"", "Ввод неккоректных данных");
+                                                      " не имеет статус -  \"Завершена\"", "Ошибка");
                                                   return;
                                               }
                                           }
@@ -197,9 +198,9 @@ namespace TMS_task_management_system
 
                             bool plannedtime = int.TryParse(task.Planned_time_Task.ToString(), out int planned_time);
                             bool actualtime = int.TryParse(task.Actual_time_Task.ToString(), out int actual_time);
-                            bool name = String.IsNullOrEmpty(task.Name_Task);
-                            bool description = String.IsNullOrEmpty(task.Description_Task);
-                            bool performers = String.IsNullOrEmpty(task.Performers_Task);
+                            bool name = String.IsNullOrWhiteSpace(task.Name_Task);
+                            bool description = String.IsNullOrWhiteSpace(task.Description_Task);
+                            bool performers = String.IsNullOrWhiteSpace(task.Performers_Task);
 
                               
 
@@ -268,7 +269,12 @@ namespace TMS_task_management_system
                       // получаем выделенный объект
                       Task task = selectedItem as Task;
                       //проверяем есть ли у задачи подзадачи, тем самым запрещая удалять
-                      if (task.SubTasks.Count != 0) return;
+                      if (task.SubTasks.Count != 0)
+                      {
+                          MessageBox.Show("Нельзя удалить задачу, которая имеет подзадачи", "Ошибка");
+                          return;
+                      }
+                      
                       //ищем задачу на удаление
                       var taskdelete = db.Tasks.Where(c => c.Id_Task == task.Id_Task).First();
 
@@ -279,6 +285,7 @@ namespace TMS_task_management_system
                       Task children_task = taskdelete;
                       // создаем переменную родитель, для того, чтобы изменить у родителя поля Actual_time_Task и All_Planned_time_Task
                       Task parent_task = new Task();
+                      parent_task = children_task;
                       //бесконечно обращаемся в цикле, чтобы изменить у каждого родители поля Actual_time_Task и All_Planned_time_Task, так как возможно вложенность подзадач
                       while (flag == true)
                       {
@@ -322,6 +329,7 @@ namespace TMS_task_management_system
                       // получаем выделенный объект
                       Task task = selectedItem as Task;
                       TaskWindow window = new TaskWindow(new Task());
+                      window.Task.Status_Task = "Назначена";
                       if (window.ShowDialog() == true)
                       {
                           Task subtask = window.Task;
@@ -331,9 +339,9 @@ namespace TMS_task_management_system
 
                           bool plannedtime = int.TryParse(subtask.Planned_time_Task.ToString(), out int planned_time);
                           bool actualtime = int.TryParse(subtask.Actual_time_Task.ToString(), out int actual_time);
-                          bool name = String.IsNullOrEmpty(subtask.Name_Task);
-                          bool description = String.IsNullOrEmpty(subtask.Description_Task);
-                          bool performers = String.IsNullOrEmpty(subtask.Performers_Task);
+                          bool name = String.IsNullOrWhiteSpace(subtask.Name_Task);
+                          bool description = String.IsNullOrWhiteSpace(subtask.Description_Task);
+                          bool performers = String.IsNullOrWhiteSpace(subtask.Performers_Task);
 
                           if (subtask.Status_Task.ToString() != "Назначена")
                           {

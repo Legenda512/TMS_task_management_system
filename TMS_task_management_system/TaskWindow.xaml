@@ -59,8 +59,7 @@
         <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" SpellCheck.IsEnabled="True" Language="ru-ru" />
         <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" SpellCheck.IsEnabled="True" Language="ru-ru" />
         <DatePicker SelectedDate="{Binding Date_of_registration_Task}"  Grid.Column="1" Grid.Row="3" IsDropDownOpen="False" SelectedDateFormat ="Short"/>
-        
-        <!--<TextBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" />-->
+
         <ComboBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Top">
             <TextBlock Margin="0">Назначена</TextBlock>
             <TextBlock Margin="0">Выполняется</TextBlock>

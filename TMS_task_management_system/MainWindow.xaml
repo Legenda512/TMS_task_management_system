@@ -25,7 +25,7 @@
         
         <Grid x:Name="layoutGrid">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1.5*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="2.5*" />
             </Grid.ColumnDefinitions>
@@ -36,11 +36,11 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name_Task}" Margin="0,0,4,0" />
                             
-                            <TextBlock Text=" [" Foreground="Blue" />
+                            <TextBlock Text="Плановая [" Foreground="Blue" />
                             <TextBlock Text="{Binding All_Planned_time_Task }" Foreground="Blue" />
-                            <TextBlock Text="]" Foreground="Blue" />
+                            <TextBlock Text="] " Foreground="Blue" />
 
-                            <TextBlock Text=" [" Foreground="Red" />
+                            <TextBlock Text="Фактическая [" Foreground="Red" />
                             <TextBlock Text="{Binding All_Actual_time_Task }" Foreground="Red" />
                             <TextBlock Text="]" Foreground="Red" />
                             
@@ -54,39 +54,39 @@
         HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
             <StackPanel Grid.Column="2" DataContext="{Binding ElementName=trvTasks, Path=SelectedItem}">
-                <TextBlock Text="Выбранный элемент"  />
+
 
                 <TextBlock Text="Имя задачи" FontSize="16" />
-                <Separator/>
                 <TextBlock Text="{Binding Name_Task}"/>
+                <Separator/>
 
                 <TextBlock Text="Описание задачи" FontSize="16"  />
-                <Separator/>
                 <TextBlock Text="{Binding Description_Task}"/>
+                <Separator/>
 
                 <TextBlock Text="Исполнители задачи" FontSize="16" />
-                <Separator/>
                 <TextBlock Text="{Binding Performers_Task}" />
+                <Separator/>
 
                 <TextBlock Text="Дата регистрации задачи" FontSize="16"  />
-                <Separator/>
                 <TextBlock Text="{Binding Date_of_registration_Task}" />
+                <Separator/>
 
                 <TextBlock Text="Статус задачи" FontSize="16"/>
-                <Separator/>
                 <TextBlock Text="{Binding Status_Task}"/>
+                <Separator/>
 
                 <TextBlock Text="Плановая трудоемкость задачи" FontSize="16" />
-                <Separator/>
                 <TextBlock Text="{Binding Planned_time_Task}"/>
+                <Separator/>
 
                 <TextBlock Text="Фактическое время выполнения" FontSize="16"/>
-                <Separator/>
                 <TextBlock Text="{Binding Actual_time_Task}"/>
+                <Separator/>
 
                 <TextBlock Text="Дата завершения задачи" FontSize="16" />
-                <Separator/>
                 <TextBlock Text="{Binding Date_of_completion_Task}"/>
+                <Separator/>
                 
 
             </StackPanel>
