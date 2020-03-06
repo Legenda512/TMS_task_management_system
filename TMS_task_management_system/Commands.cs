@@ -57,19 +57,23 @@ namespace TMS_task_management_system
         public Task EditCommand(object selectedItem, ref bool IsErrorTask)
         {
             // получаем выделенный объект
-            Task task = selectedItem as Task;
+            Task selectedtask = selectedItem as Task;
+
+            Task task = selectedtask;
 
             Task oldtask = new Task()
             {
-                Id_Task = task.Id_Task,
-                Name_Task = task.Name_Task,
-                Description_Task = task.Description_Task,
-                Performers_Task = task.Performers_Task,
-                Date_of_registration_Task = task.Date_of_registration_Task,
-                Status_Task = task.Status_Task,
-                Planned_time_Task = task.Planned_time_Task,
-                Actual_time_Task = task.Actual_time_Task,
-                Date_of_completion_Task = task.Date_of_completion_Task
+                Id_Task = selectedtask.Id_Task,
+                Name_Task = selectedtask.Name_Task,
+                Description_Task = selectedtask.Description_Task,
+                Performers_Task = selectedtask.Performers_Task,
+                Date_of_registration_Task = selectedtask.Date_of_registration_Task,
+                Status_Task = selectedtask.Status_Task,
+                Planned_time_Task = selectedtask.Planned_time_Task,
+                Actual_time_Task = selectedtask.Actual_time_Task,
+                Date_of_completion_Task = selectedtask.Date_of_completion_Task,
+                SubTasks = selectedtask.SubTasks
+                
             };
 
 
@@ -80,6 +84,7 @@ namespace TMS_task_management_system
                 task = db.Tasks.Find(taskWindow.Task.Id_Task);
 
                 
+                
                 //запоминаем первоначальные данные
                 int old_Actual_time_Task = task.Actual_time_Task;
                 //запоминаем первоначальные данные
@@ -88,8 +93,6 @@ namespace TMS_task_management_system
                 //запоминаем статус задачи
                 string old_status_task = task.Status_Task;
 
-                var task_list = MainWindow.tasks.ToList();
-                Task status_task = task_list.Where(c => c.Id_Task == taskWindow.Task.Id_Task).First();
 
                 if (old_status_task != taskWindow.Task.Status_Task)
                 {
@@ -102,24 +105,14 @@ namespace TMS_task_management_system
                     }
 
                     
+
                     
                     else if(taskWindow.Task.Status_Task == "Завершена")
                     {
-                        
-                        foreach (var subtask in status_task.SubTasks)
-                        {
-                            if (subtask.Status_Task.ToString() == "Назначена")
-                            {
-                                MessageBox.Show(Resource1.SubTaskStatus + subtask.Name_Task.ToString(), Resource1.HeadingError);
-                                IsErrorTask = true;
-                                return task;
-                            }
-                            else if(subtask.Status_Task.ToString() != "Назначена")
-                            {
-                                subtask.Status_Task = "Завершена";
-                            }
-                        }
-                            
+
+                        if (CanChangeStatus(selectedtask))
+                            ChangeStatus(selectedtask);
+
                     }
                 }
 
@@ -290,6 +283,37 @@ namespace TMS_task_management_system
             IsErrorTask = true;
             return task;
         }
+
+        private static bool CanChangeStatus(Task task)
+        {
+            //if (task.SubTasks.Count == 0)
+            //    return true;
+
+            foreach(var subtask in task.SubTasks)
+            {
+                if(subtask.Status_Task == "Назначена")
+                    return false;
+
+                if(!CanChangeStatus(subtask))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static void ChangeStatus(Task task)
+        {
+            task.Status_Task = "Завершена";
+
+            foreach(var subtask in task.SubTasks)
+            {
+                //subtask.Status_Task = "Завершена";
+                ChangeStatus(subtask);
+            }
+
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
