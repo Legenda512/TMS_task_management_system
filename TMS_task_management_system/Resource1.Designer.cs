@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TMS_task_management_system.Properties {
+namespace TMS_task_management_system {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace TMS_task_management_system.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class Resource1 {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resource1() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace TMS_task_management_system.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TMS_task_management_system.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TMS_task_management_system.Resource1", typeof(Resource1).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,51 @@ namespace TMS_task_management_system.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Проверьте правильность вводимых данных.
+        /// </summary>
+        internal static string ButtonClickError {
+            get {
+                return ResourceManager.GetString("ButtonClickError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нельзя удалить задачу, которая имеет подзадачи.
+        /// </summary>
+        internal static string DeleteTask {
+            get {
+                return ResourceManager.GetString("DeleteTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка.
+        /// </summary>
+        internal static string HeadingError {
+            get {
+                return ResourceManager.GetString("HeadingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Статус «Завершена» может быть присвоен только после статусов «выполняется» или «Приостановлена».
+        /// </summary>
+        internal static string Status_Assigned_СompletedError {
+            get {
+                return ResourceManager.GetString("Status_Assigned_СompletedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нельзя перевести задачу в статус - «Завершена» , ошибка в -.
+        /// </summary>
+        internal static string SubTaskStatus {
+            get {
+                return ResourceManager.GetString("SubTaskStatus", resourceCulture);
             }
         }
     }

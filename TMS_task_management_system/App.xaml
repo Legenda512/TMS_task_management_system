@@ -4,6 +4,20 @@
              xmlns:local="clr-namespace:TMS_task_management_system"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <ControlTemplate x:Key="TextBoxErrorTemplate">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Right" 
+
+        Foreground="Orange" 
+
+        FontSize="12pt">!!!!</TextBlock>
+
+                <Border BorderBrush="Green" BorderThickness="1">
+                    <AdornedElementPlaceholder />
+                </Border>
+            </DockPanel>
+        </ControlTemplate>
+        
     </Application.Resources>
 </Application>

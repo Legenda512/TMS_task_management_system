@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using System.Windows;
 
 namespace TMS_task_management_system
 {
@@ -59,8 +61,15 @@ namespace TMS_task_management_system
             get { return name_task; }
             set
             {
-                name_task = value;
-                OnPropertyChanged("Name_Task");
+                
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ApplicationException();
+
+                }
+                else
+                    name_task = value;
+ 
             }
         }
 
@@ -69,8 +78,14 @@ namespace TMS_task_management_system
             get { return description_task; }
             set
             {
-                description_task = value;
-                OnPropertyChanged("Description_Task");
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ApplicationException();
+
+                }
+                else
+                    description_task = value;
+                
             }
         }
 
@@ -79,8 +94,14 @@ namespace TMS_task_management_system
             get { return performers_task; }
             set
             {
-                performers_task = value;
-                OnPropertyChanged("Performers_Task");
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ApplicationException();
+
+                }
+                else
+                    performers_task = value;
+                
             }
         }
 

@@ -55,9 +55,42 @@
         <TextBlock Text="Дата завершения задачи" Grid.Row="7" />
         <TextBlock Text="" Grid.Row="8" />
 
-        <TextBox Text="{Binding Name_Task}" Grid.Column="1" SpellCheck.IsEnabled="True" Language="ru-ru" />
-        <TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" SpellCheck.IsEnabled="True" Language="ru-ru" />
-        <TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" SpellCheck.IsEnabled="True" Language="ru-ru" />
+        <!--<TextBox Text="{Binding Name_Task}" Grid.Column="1" SpellCheck.IsEnabled="True" Language="ru-ru" />-->
+
+        <TextBox x:Name = "Name" Grid.Column="1" SpellCheck.IsEnabled="True" Language="ru-ru">
+            <TextBox.Text>
+                <Binding Path="Name_Task">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <TextBox  x:Name = "Description" Grid.Column="1" Grid.Row="1" SpellCheck.IsEnabled="True" Language="ru-ru" >
+            <TextBox.Text>
+                <Binding Path="Description_Task">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <TextBox  x:Name = "Perfomers" Grid.Column="1" Grid.Row="2" SpellCheck.IsEnabled="True" Language="ru-ru" >
+            <TextBox.Text>
+                <Binding Path="Performers_Task">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+        
+
+
+        <!--<TextBox Text="{Binding Description_Task}" Grid.Column="1" Grid.Row="1" SpellCheck.IsEnabled="True" Language="ru-ru" />-->
+        <!--<TextBox Text="{Binding Performers_Task}" Grid.Column="1" Grid.Row="2" SpellCheck.IsEnabled="True" Language="ru-ru" />-->
         <DatePicker SelectedDate="{Binding Date_of_registration_Task}"  Grid.Column="1" Grid.Row="3" IsDropDownOpen="False" SelectedDateFormat ="Short"/>
 
         <ComboBox Text="{Binding Status_Task}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Top">

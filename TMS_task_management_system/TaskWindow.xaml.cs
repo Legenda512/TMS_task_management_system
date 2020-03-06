@@ -30,7 +30,10 @@ namespace TMS_task_management_system
 
         private void Accept_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            if(string.IsNullOrWhiteSpace(Name.Text) || string.IsNullOrWhiteSpace(Description.Text) || string.IsNullOrWhiteSpace(Perfomers.Text))
+                MessageBox.Show(Resource1.ButtonClickError, Resource1.HeadingError);
+            else
+                this.DialogResult = true;
         }
 
     }

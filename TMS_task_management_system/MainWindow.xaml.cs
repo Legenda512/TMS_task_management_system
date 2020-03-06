@@ -20,6 +20,7 @@ namespace TMS_task_management_system
             InitializeComponent(); 
 
             var datacontext = new ApplicationViewModel();
+            
             this.DataContext = datacontext;
             
 
@@ -140,30 +141,7 @@ namespace TMS_task_management_system
                 if (task.SubTasks.Count > 0) DeleteTaskRecursive(task, taskId);
             }
         }
-
-        public static bool FindSubtask_Status(TaskWindow taskWindow)
-        {
-            if (taskWindow.Task.SubTasks.Count == 0)
-            {
-                MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
-                return false;
-            }
-            else
-            {
-                foreach (var subtask in taskWindow.Task.SubTasks)
-                {
-                    if (subtask.Status_Task.ToString() != "Завершена")
-                    {
-                        MessageBox.Show("Нельзя перевести задачу в статус -  \"Завершена\", потому что подзадача " +
-                            subtask.Name_Task.ToString() +
-                            "не имеет статус -  \"Завершена\"", "Ввод неккоректных данных");
-                        return false;
-                    }
-                }
-            }
-            return true;
-
-        }
+  
 
 
     }

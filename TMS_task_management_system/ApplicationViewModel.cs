@@ -32,6 +32,7 @@ namespace TMS_task_management_system
         //команда добавления подзадачи
         RelayCommand addsubCommand;
 
+        Commands command = new Commands();
 
         IEnumerable<Task> tasks;
 
@@ -61,41 +62,8 @@ namespace TMS_task_management_system
             get
             {
                 return addCommand ??
-                  (addCommand = new RelayCommand((o) =>
-                  {
-                      TaskWindow taskWindow = new TaskWindow(new Task());
-                      taskWindow.Task.Status_Task = "Назначена";
-                      if (taskWindow.ShowDialog() == true)
-                      {
-                          Task task = taskWindow.Task;
-                          
-                          bool plannedtime = int.TryParse(task.Planned_time_Task.ToString(), out int planned_time);
-                          bool actualtime = int.TryParse(task.Actual_time_Task.ToString(), out int actual_time);
-                          bool name = String.IsNullOrWhiteSpace(task.Name_Task);
-                          bool description = String.IsNullOrWhiteSpace(task.Description_Task);
-                          bool performers = String.IsNullOrWhiteSpace(task.Performers_Task);
-
-
-                          if (task.Status_Task.ToString() != "Назначена")
-                          {
-                              MessageBox.Show("При добавлении, задача может иметь только статус - \"Назначена\"", "Ввод неккоректных данных");
-                              return;
-                          }
-                              
-
-
-                          if (name != true && description != true && performers != true && task.Date_of_registration_Task != null
-                            && plannedtime != false && actualtime != false)
-                          {
-                              task.All_Actual_time_Task = task.Actual_time_Task;
-                              task.All_Planned_time_Task = task.Planned_time_Task;
-                              db.Tasks.Add(task);
-                              db.SaveChanges();
-                              NotifyAddCommand?.Invoke(task);
-                          }
-                          else MessageBox.Show("Проверьте правильность вводимых данных", "Ввод неккоректных данных");
-                      }
-                  }));
+                  (addCommand = new RelayCommand((o) => NotifyAddCommand?.Invoke(command.AddCommand())
+                  ));
             }
         }
         // команда редактирования
@@ -103,158 +71,17 @@ namespace TMS_task_management_system
         {
             get
             {
+                bool IsErrorTask = false;
+                Task task = new Task();
                 return editCommand ??
                   (editCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem == null) return;
-                      // получаем выделенный объект
-                      Task task = selectedItem as Task;
-
-
-
-                    Task oldtask = new Task()
-                    {
-                        Id_Task = task.Id_Task,
-                        Name_Task = task.Name_Task,
-                        Description_Task = task.Description_Task,
-                        Performers_Task = task.Performers_Task,
-                        Date_of_registration_Task = task.Date_of_registration_Task,
-                        Status_Task = task.Status_Task,
-                        Planned_time_Task = task.Planned_time_Task,
-                        Actual_time_Task = task.Actual_time_Task,
-                        Date_of_completion_Task = task.Date_of_completion_Task
-                    };
-                    TaskWindow taskWindow = new TaskWindow(oldtask);
-
-
-                    if (taskWindow.ShowDialog() == true)
-                    {
-                        // получаем измененный объект
-                        task = db.Tasks.Find(taskWindow.Task.Id_Task);
-
-                        if (task != null)
-                        {
-                            //запоминаем первоначальные данные
-                            int old_Actual_time_Task = task.Actual_time_Task;
-                              //запоминаем первоначальные данные
-                            int old_Planned_time_Task = task.Planned_time_Task;
-
-                              
-                              //запоминаем статус задачи
-                              string old_status_task = task.Status_Task;
-
-                              
-                              var task_list = MainWindow.tasks.ToList();
-                              Task status_task = task_list.Where(c => c.Id_Task == taskWindow.Task.Id_Task).First();
-                               
-                            
-
-                              if (old_status_task != taskWindow.Task.Status_Task)
-                              {
-                                  if (old_status_task == "Назначена" && taskWindow.Task.Status_Task != "Выполняется")
-                                  {
-                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Выполняется\"", "Ввод неккоректных данных");
-                                      return;
-                                  }
-                                  else if (old_status_task == "Выполняется" && taskWindow.Task.Status_Task != "Приостановлена")
-                                  {
-                                      MessageBox.Show("При изменении, задача может перейти в статус - \"Приостановлена\"", "Ввод неккоректных данных");
-                                      return;
-                                  }
-
-                                  if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task != "Завершена" && status_task.SubTasks.Count == 0)
-                                      {
-                                          MessageBox.Show("При изменении, задача может перейти в статус - \"Завершена\"", "Ввод неккоректных данных");
-                                          return;
-                                      }
-                                  else if (old_status_task == "Приостановлена" && taskWindow.Task.Status_Task == "Завершена" && status_task.SubTasks.Count >= 1)
-                                      {
-                                          foreach (var subtask in status_task.SubTasks)
-                                          {
-                                              if (subtask.Status_Task.ToString() != "Завершена")
-                                              {
-                                                  MessageBox.Show("Нельзя перевести задачу в статус -  \"Завершена\", потому что подзадача " +
-                                                      subtask.Name_Task.ToString() +
-                                                      " не имеет статус -  \"Завершена\"", "Ошибка");
-                                                  return;
-                                              }
-                                          }
-                                      }
-                                      
-                                  
-                              }
-
-                            task.Name_Task = taskWindow.Task.Name_Task;
-                            task.Description_Task = taskWindow.Task.Description_Task;
-                            task.Performers_Task = taskWindow.Task.Performers_Task;
-                            task.Date_of_registration_Task = taskWindow.Task.Date_of_registration_Task;
-                            task.Status_Task = taskWindow.Task.Status_Task;
-                            task.Planned_time_Task = taskWindow.Task.Planned_time_Task;
-                            task.Actual_time_Task = taskWindow.Task.Actual_time_Task;
-                            task.Date_of_completion_Task = taskWindow.Task.Date_of_completion_Task;
-
-                            task.All_Actual_time_Task += task.Actual_time_Task - old_Actual_time_Task;
-                            task.All_Planned_time_Task += task.Planned_time_Task - old_Planned_time_Task;
-
-                            bool plannedtime = int.TryParse(task.Planned_time_Task.ToString(), out int planned_time);
-                            bool actualtime = int.TryParse(task.Actual_time_Task.ToString(), out int actual_time);
-                            bool name = String.IsNullOrWhiteSpace(task.Name_Task);
-                            bool description = String.IsNullOrWhiteSpace(task.Description_Task);
-                            bool performers = String.IsNullOrWhiteSpace(task.Performers_Task);
-
-                              
-
-
-                              if (name != true && description != true && performers != true && task.Date_of_registration_Task != null
-                             && plannedtime != false && actualtime != false)
-                            {
-
-                                  //флаг нужен для работы цикла
-                                  bool flag = true;
-                                  //получаем нашу подзадачу для инициализации полей его родителя
-                                  int change_Actual_time_Task = task.Actual_time_Task - old_Actual_time_Task;
-                                  int change_Planned_time_Task = task.Planned_time_Task - old_Planned_time_Task;
-                                  Task children_task = task;
-                                  // создаем переменную родитель, для того, чтобы изменить у родителя поля Actual_time_Task и All_Planned_time_Task
-                                  Task parent_task = new Task();
-                                  //бесконечно обращаемся в цикле, чтобы изменить у каждого родители поля Actual_time_Task и All_Planned_time_Task, так как возможно вложенность подзадач
-                                  while (flag == true)
-                                  {
-
-                                      if (children_task.Ref_Task != 0)
-                                      {
-                                          // получаем объект родитель
-                                          parent_task = db.Tasks.Where(c => c.Id_Task == children_task.Ref_Task).FirstOrDefault();
-                                          // изменяем у него вычисляемые поля
-                                          parent_task.All_Actual_time_Task += change_Actual_time_Task;
-                                          parent_task.All_Planned_time_Task += change_Planned_time_Task;
-                                          // необоходимо для того, чтобы узнать есть ли вложенность подзадач, чтобы дальше по дереву изменить у всех вычисляемые поля
-                                          children_task = parent_task;
-                                      }
-                                      // как только родитель и ребенок это один тот же объект, прекращаем цикл.
-                                      else if (children_task.Id_Task == parent_task.Id_Task)
-                                      {
-                                          flag = false;
-                                      }
-                                      else if(children_task.Ref_Task == 0)
-                                      {
-                                          flag = false;
-                                      }
-
-                                  }
-
-                                  db.Entry(task).State = EntityState.Modified;
-                                  db.SaveChanges();
-
-                                  NotifyEditCommand?.Invoke(task);
-                            }
-
-                            else MessageBox.Show("Проверьте правильность вводимых данных", "Ввод неккоректных данных");
-                        }
-                    }
-                      
-                      
+                      task = command.EditCommand(selectedItem, ref IsErrorTask);
+                      if (IsErrorTask == false)
+                          NotifyEditCommand?.Invoke(task);
                   }));
+                
+                
             }
         }
         // команда удаления
@@ -262,57 +89,15 @@ namespace TMS_task_management_system
         {
             get
             {
+
+                bool IsErrorTask = false;
+                Task task = new Task();
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem == null) return;
-                      // получаем выделенный объект
-                      Task task = selectedItem as Task;
-                      //проверяем есть ли у задачи подзадачи, тем самым запрещая удалять
-                      if (task.SubTasks.Count != 0)
-                      {
-                          MessageBox.Show("Нельзя удалить задачу, которая имеет подзадачи", "Ошибка");
-                          return;
-                      }
-                      
-                      //ищем задачу на удаление
-                      var taskdelete = db.Tasks.Where(c => c.Id_Task == task.Id_Task).First();
-
-
-                      //флаг нужен для работы цикла
-                      bool flag = true;
-                      //получаем нашу подзадачу для инициализации полей его родителя
-                      Task children_task = taskdelete;
-                      // создаем переменную родитель, для того, чтобы изменить у родителя поля Actual_time_Task и All_Planned_time_Task
-                      Task parent_task = new Task();
-                      parent_task = children_task;
-                      //бесконечно обращаемся в цикле, чтобы изменить у каждого родители поля Actual_time_Task и All_Planned_time_Task, так как возможно вложенность подзадач
-                      while (flag == true)
-                      {
-
-                          if (children_task.Ref_Task != 0)
-                          {
-                              // получаем объект родитель
-                              parent_task = db.Tasks.Where(c => c.Id_Task == children_task.Ref_Task).FirstOrDefault();
-                              // изменяем у него вычисляемые поля
-                              parent_task.All_Actual_time_Task -= taskdelete.Actual_time_Task;
-                              parent_task.All_Planned_time_Task -= taskdelete.Planned_time_Task;
-                              // необоходимо для того, чтобы узнать есть ли вложенность подзадач, чтобы дальше по дереву изменить у всех вычисляемые поля
-                              children_task = parent_task;
-                          }
-                          // как только родитель и ребенок это один тот же объект, прекращаем цикл.
-                          else if (children_task.Id_Task == parent_task.Id_Task)
-                          {
-                              flag = false;
-                          }
-
-                      }
-
-
-                      db.Tasks.Remove(taskdelete);
-                      db.SaveChanges();
-                      NotifyDeleteCommand?.Invoke(task); 
-
+                      task = command.DeleteCommand(selectedItem, ref IsErrorTask);
+                      if (IsErrorTask == false)
+                          NotifyDeleteCommand?.Invoke(task);
                   }));
             }
         }
@@ -320,79 +105,20 @@ namespace TMS_task_management_system
         // команда добавления подзадачи
         public RelayCommand AddSubCommand
         {
+            
             get
             {
+
+                bool IsErrorTask = false;
+                Task task = new Task();
                 return addsubCommand ??
                   (addsubCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem == null) return;
-                      // получаем выделенный объект
-                      Task task = selectedItem as Task;
-                      TaskWindow window = new TaskWindow(new Task());
-                      window.Task.Status_Task = "Назначена";
-                      if (window.ShowDialog() == true)
-                      {
-                          Task subtask = window.Task;
-
-                          subtask.All_Actual_time_Task = subtask.Actual_time_Task;
-                          subtask.All_Planned_time_Task = subtask.Planned_time_Task;
-
-                          bool plannedtime = int.TryParse(subtask.Planned_time_Task.ToString(), out int planned_time);
-                          bool actualtime = int.TryParse(subtask.Actual_time_Task.ToString(), out int actual_time);
-                          bool name = String.IsNullOrWhiteSpace(subtask.Name_Task);
-                          bool description = String.IsNullOrWhiteSpace(subtask.Description_Task);
-                          bool performers = String.IsNullOrWhiteSpace(subtask.Performers_Task);
-
-                          if (subtask.Status_Task.ToString() != "Назначена")
-                          {
-                              MessageBox.Show("При добавлении, задача может иметь только статус - \"Назначена\"", "Ввод неккоректных данных");
-                              return;
-                          }
-
-
-                          if (name != true && description != true && performers != true && subtask.Date_of_registration_Task != null
-                           && plannedtime != false && actualtime != false)
-                          {
-                              subtask.Ref_Task = task.Id_Task;
-
-                              task.SubTasks.Add(subtask);
-
-                              //флаг нужен для работы цикла
-                              bool flag = true;
-                              //получаем нашу подзадачу для инициализации полей его родителя
-                              Task children_task = subtask;
-                              // создаем переменную родитель, для того, чтобы изменить у родителя поля Actual_time_Task и All_Planned_time_Task
-                              Task parent_task  = new Task();
-                              //бесконечно обращаемся в цикле, чтобы изменить у каждого родители поля Actual_time_Task и All_Planned_time_Task, так как возможно вложенность подзадач
-                              while (flag == true)
-                              {
-
-                                  if (children_task.Ref_Task != 0)
-                                  {
-                                      // получаем объект родитель
-                                      parent_task = db.Tasks.Where(c => c.Id_Task == children_task.Ref_Task).FirstOrDefault();
-                                      // изменяем у него вычисляемые поля
-                                      parent_task.All_Actual_time_Task += subtask.Actual_time_Task;
-                                      parent_task.All_Planned_time_Task += subtask.Planned_time_Task;
-                                      // необоходимо для того, чтобы узнать есть ли вложенность подзадач, чтобы дальше по дереву изменить у всех вычисляемые поля
-                                      children_task = parent_task;                  
-                                  }
-                                  // как только родитель и ребенок это один тот же объект, прекращаем цикл.
-                                  else if(children_task.Id_Task == parent_task.Id_Task)
-                                  {
-                                      flag = false;
-                                  }
-
-                              }
-
-                              db.Tasks.Add(subtask);
-                              db.SaveChanges();
-                          }
-                          else MessageBox.Show("Проверьте правильность вводимых данных", "Ввод неккоректных данных");
-                      }
-                   NotifyAddSubCommand?.Invoke(task);
+                      task = command.AddSubCommand(selectedItem, ref IsErrorTask);
+                      if (IsErrorTask == false)
+                          NotifyAddSubCommand?.Invoke(task);
                   }));
-            }    
+            }
         }
 
         

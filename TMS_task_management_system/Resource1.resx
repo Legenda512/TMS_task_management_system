@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonClickError" xml:space="preserve">
+    <value>Проверьте правильность вводимых данных</value>
+  </data>
+  <data name="DeleteTask" xml:space="preserve">
+    <value>Нельзя удалить задачу, которая имеет подзадачи</value>
+  </data>
+  <data name="HeadingError" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="Status_Assigned_СompletedError" xml:space="preserve">
+    <value>Статус «Завершена» может быть присвоен только после статусов «выполняется» или «Приостановлена»</value>
+  </data>
+  <data name="SubTaskStatus" xml:space="preserve">
+    <value>Нельзя перевести задачу в статус - «Завершена» , ошибка в -</value>
+  </data>
 </root>
