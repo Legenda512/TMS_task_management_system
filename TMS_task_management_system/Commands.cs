@@ -14,7 +14,7 @@ namespace TMS_task_management_system
     {
 
         //подключение к базе данных
-        ApplicationContext db;
+        public static ApplicationContext db;
 
         public Commands()
         {
@@ -37,15 +37,23 @@ namespace TMS_task_management_system
         }
 
 
-        public Task AddCommand()
+        public Task AddCommand(ref bool IsErrorTask)
         {
             Task task = new Task();
             TaskWindow taskWindow = new TaskWindow(new Task());
             taskWindow.Task.Status_Task = "Назначена";
             if (taskWindow.ShowDialog() == true)
             {
-                task = taskWindow.Task;
 
+                task = taskWindow.Task;
+                if(task.Status_Task == "Завершена")
+                {
+                    MessageBox.Show(Resource1.Status_Assigned_СompletedError, Resource1.HeadingError);
+                    IsErrorTask = true;
+                    return task;
+                }
+                    
+                
                 task.All_Actual_time_Task = task.Actual_time_Task;
                 task.All_Planned_time_Task = task.Planned_time_Task;
                 db.Tasks.Add(task);
@@ -111,7 +119,17 @@ namespace TMS_task_management_system
                     {
 
                         if (CanChangeStatus(selectedtask))
+                        {
                             ChangeStatus(selectedtask);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show(Resource1.SubTasksStatusError, Resource1.HeadingError);
+
+                            IsErrorTask = true;
+                            return task;
+                        }
 
                     }
                 }
@@ -304,10 +322,13 @@ namespace TMS_task_management_system
         private static void ChangeStatus(Task task)
         {
             task.Status_Task = "Завершена";
+            Task taskDb = db.Tasks.Where(c => c.Id_Task == task.Id_Task).FirstOrDefault();
+            taskDb.Status_Task = "Завершена";
+            db.Entry(taskDb).State = EntityState.Modified;
+            db.SaveChanges();
 
-            foreach(var subtask in task.SubTasks)
+            foreach (var subtask in task.SubTasks)
             {
-                //subtask.Status_Task = "Завершена";
                 ChangeStatus(subtask);
             }
 

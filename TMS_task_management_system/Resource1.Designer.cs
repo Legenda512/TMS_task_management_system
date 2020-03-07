@@ -97,6 +97,15 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Нельзя поменять статус у задачи, пока подзадачи имеют статус -  «Назначена».
+        /// </summary>
+        internal static string SubTasksStatusError {
+            get {
+                return ResourceManager.GetString("SubTasksStatusError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Нельзя перевести задачу в статус - «Завершена» , ошибка в -.
         /// </summary>
         internal static string SubTaskStatus {

@@ -129,6 +129,9 @@
   <data name="Status_Assigned_СompletedError" xml:space="preserve">
     <value>Статус «Завершена» может быть присвоен только после статусов «выполняется» или «Приостановлена»</value>
   </data>
+  <data name="SubTasksStatusError" xml:space="preserve">
+    <value>Нельзя поменять статус у задачи, пока подзадачи имеют статус -  «Назначена»</value>
+  </data>
   <data name="SubTaskStatus" xml:space="preserve">
     <value>Нельзя перевести задачу в статус - «Завершена» , ошибка в -</value>
   </data>

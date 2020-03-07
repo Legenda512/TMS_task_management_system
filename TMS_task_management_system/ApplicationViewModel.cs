@@ -61,8 +61,15 @@ namespace TMS_task_management_system
         {
             get
             {
+                bool IsErrorTask = false;
+                Task task = new Task();
                 return addCommand ??
-                  (addCommand = new RelayCommand((o) => NotifyAddCommand?.Invoke(command.AddCommand())
+                  (addCommand = new RelayCommand((o) =>
+                    {
+                        task = command.AddCommand(ref IsErrorTask);
+                        if (IsErrorTask == false)
+                            NotifyAddCommand?.Invoke(task);
+                    }
                   ));
             }
         }
