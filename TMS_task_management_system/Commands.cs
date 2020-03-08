@@ -52,13 +52,21 @@ namespace TMS_task_management_system
                     IsErrorTask = true;
                     return task;
                 }
-                    
-                
+
+                if (task.Date_of_registration_Task == null)
+                {
+                    MessageBox.Show(Resource1.ButtonClickError, Resource1.HeadingError);
+                    IsErrorTask = true;
+                    return task;
+                }
+
+
                 task.All_Actual_time_Task = task.Actual_time_Task;
                 task.All_Planned_time_Task = task.Planned_time_Task;
                 db.Tasks.Add(task);
                 db.SaveChanges();
             }
+            IsErrorTask = false;
             return task;
         }
 
@@ -249,13 +257,36 @@ namespace TMS_task_management_system
 
         public Task AddSubCommand(object selectedItem, ref bool IsErrorTask)
         {
+            
             // получаем выделенный объект
             Task task = selectedItem as Task;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show(Resource1.SelectItemNull, Resource1.HeadingError);
+                IsErrorTask = true;
+                return task;
+            }
+
             TaskWindow window = new TaskWindow(new Task());
             window.Task.Status_Task = "Назначена";
             if (window.ShowDialog() == true)
             {
                 Task subtask = window.Task;
+
+                if (subtask.Status_Task == "Завершена")
+                {
+                    MessageBox.Show(Resource1.Status_Assigned_СompletedError, Resource1.HeadingError);
+                    IsErrorTask = true;
+                    return task;
+                }
+
+                if (subtask.Date_of_registration_Task == null)
+                {
+                    MessageBox.Show(Resource1.ButtonClickError, Resource1.HeadingError);
+                    IsErrorTask = true;
+                    return task;
+                }
 
                 subtask.All_Actual_time_Task = subtask.Actual_time_Task;
                 subtask.All_Planned_time_Task = subtask.Planned_time_Task;

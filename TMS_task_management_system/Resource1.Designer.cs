@@ -61,7 +61,7 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Проверьте правильность вводимых данных.
+        ///   Ищет локализованную строку, похожую на Проверьте правильность вводимых данных..
         /// </summary>
         internal static string ButtonClickError {
             get {
@@ -70,7 +70,7 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Нельзя удалить задачу, которая имеет подзадачи.
+        ///   Ищет локализованную строку, похожую на Нельзя удалить задачу, которая имеет подзадачи..
         /// </summary>
         internal static string DeleteTask {
             get {
@@ -79,7 +79,7 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Ошибка.
+        ///   Ищет локализованную строку, похожую на Ошибка..
         /// </summary>
         internal static string HeadingError {
             get {
@@ -88,7 +88,16 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Статус «Завершена» может быть присвоен только после статусов «выполняется» или «Приостановлена».
+        ///   Ищет локализованную строку, похожую на Для добавления подзадачи, требуется выбрать задачу..
+        /// </summary>
+        internal static string SelectItemNull {
+            get {
+                return ResourceManager.GetString("SelectItemNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Статус «Завершена» может быть присвоен только после статусов «выполняется» или «Приостановлена»..
         /// </summary>
         internal static string Status_Assigned_СompletedError {
             get {
@@ -97,7 +106,7 @@ namespace TMS_task_management_system {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Нельзя поменять статус у задачи, пока подзадачи имеют статус -  «Назначена».
+        ///   Ищет локализованную строку, похожую на Нельзя поменять статус у задачи, пока подзадачи имеют статус -  «Назначена»..
         /// </summary>
         internal static string SubTasksStatusError {
             get {
